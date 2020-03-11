@@ -1,0 +1,28 @@
+package com.learning.spark
+
+import org.apache.spark.{SparkConf, SparkContext}
+
+object Demo1 {
+
+  def main(args:Array[String]):Unit = {
+
+    //creation of spark core object
+
+    val conf = new SparkConf().set("spark.master","local").set("spark.app.name","demoapp")
+
+    //creation of spark context object
+
+    val sc = new SparkContext(conf)
+
+    val r1 = sc.textFile("C:\\Users\\home\\Desktop\\sample.txt")
+
+    val r2 = r1.flatMap(x => x.split( " ")).map(x => (x,1)).reduceByKey((x,y) => (x+y))
+
+    r2.saveAsTextFile("C:\\Users\\home\\Desktop\\sampleoutput")
+
+    sc.stop()
+
+    println("\nThe spark job got finished")
+
+  }
+}
